@@ -549,7 +549,7 @@ EXPLICATION:
 ###### - Visualiser les actions du SI, définir des statistiques et identifier les signaux faibles.  
 ###### Le démon rsyslogd a pour charge de collecter les messages de service provenant des applications et du noyau puis de les répartir dans des fichiers de logs (habituellement stockés dans le répertoire /var/log/). Il obéit au fichier de configuration /etc/rsyslog.conf.
 
-### Monitoring.sh
+### 7. Monitoring.sh
 
 ##### Créer le fichier `monitoring.sh` dans le dossier `/usr/local/bin/`:
 ```
@@ -681,9 +681,24 @@ crontab -l
 ```
 ***
 
+### 8. Faire un snapshot de la machine
 
+##### Virtualbox -> appuyer sur le carré à coté du nom de votre machine -> séléctionner snapshots
 
+<img width="1221" alt="Screen Shot 2022-12-08 at 4 05 18 PM" src="https://user-images.githubusercontent.com/109855801/206481136-c18b4ceb-667f-413b-a08b-a61d463c8d5c.png">
 
+##### Appuyer sur Take et attribuer un nom
+
+<img width="1221" alt="Screen Shot 2022-12-08 at 4 06 36 PM" src="https://user-images.githubusercontent.com/109855801/206481435-4e18a320-08a1-4576-83b1-a50250f24071.png">
+
+---
+Si maintenant vous procédez à des changements de votre machine (p.ex. ajouts de nouveaux users, changements de server etc) vous pouvez toujours revenir à l'état sauvegardé.
+
+Pour ce faire appuyer le terminal de VirtualBox et appuyer sur le "x" rouge en haut à gauche et séléctionné comme suit: 
+
+<img width="1112" alt="Screen Shot 2022-12-08 at 4 09 18 PM" src="https://user-images.githubusercontent.com/109855801/206482001-1d3cce96-0a9b-4a83-8d97-c4d3a3aa67b6.png">
+
+***
 
 
 
