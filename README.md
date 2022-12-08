@@ -406,6 +406,7 @@ password        requisite                       pam_pwquality.so retry=3 dcredit
 ##### Visualiser les options ajoutées
 
 ```
+cd /etc/pam.d/
 grep 'pwquality' *
 ```
 
@@ -562,6 +563,7 @@ sudo nano monitoring.sh
 ```
 
 ##### Ecrire dedans le script suivant:
+```
 #!/bin/bash
 wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `arch` \
 $'\n#CPU physical: '`cat /proc/cpuinfo | grep processor | wc -l` \
@@ -576,13 +578,40 @@ $'\n#User log: ' `who | cut -d " " -f 1 | sort -u | wc -l` \
 $'\nNetwork: IP ' `hostname -I`"("`ip a | grep link/ether | awk '{print $2}'`")" \
 $'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
 ```
+---
+Check the following commands to figure out how to write the script:
+
+`uname` : architecture information
+`/proc/cpuinfo` : CPU information
+`free` : RAM information
+`df` : disk information
+`top -bn1` : process information
+`who` : boot and connected user information
+`lsblk` : partition and LVM information
+`/proc/net/sockstat` : TCP information
+`hostname` : hostname and IP information
+`ip link show / ip address` : IP and MAC information
+***
 
 #####  Vérifier si le fichier a des droit d'exécution `x`
+
 ```
 ls -l
 ```
+
 ##### S'il n'y a pas des droits d'exécution, érire la commande suivante:
 
+```
+chmod 755 monitoring.sh
+```
+
+##### Vérifier si les droits d'exécution ont bien été activés:
+
+```
+ls -l
+```
+
+##### Passer en mode root afin de donner 
 ***
 
 
