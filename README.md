@@ -611,7 +611,65 @@ chmod 755 monitoring.sh
 ls -l
 ```
 
-##### Passer en mode root afin de donner 
+##### Vérifier si le paquet cron est déjà installé:
+
+```
+apt-cache policy cron
+```
+
+---
+Cron est un programme démon disponible sur les systèmes de type Unix (Linux, Mac Osx ...) permettant de planifier des taches régulières. Il est en effet intéressant que les tâches habituelles soient réalisées automatiquement par le système plutôt que d’avoir à les lancer manuellement en tant qu’utilisateur.
+
+Si le paquet n'est pas installé:
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install cron
+```
+***
+
+##### Passer en mode root afin de donner les instructions d'affichage du script
+
+```
+su -
+systemctl enable cron
+crontab -e
+```
+---
+Les tâches peuvent être planifiées par heure, par jour, par semaine ou par mois. La commande `crontab` permet de définir planifier fréquence. 
+
+Pour être autorisé à utiliser la commande crontab, il faut que l'utilisateur soit présent dans le groupe crontab (à vérifier avec la commande `getent group crontab`). 
+
+***
+
+##### Ajouter les instructions suivantes à la fin:
+```
+*/10 * * * * /usr/local/bin/monitoring.sh
+#
+```
+---
+La commande `crontab` permet de définir la fréquence.
+ 
+La syntaxe des fichiers de Cron : `mm hh jj MMM JJJ tâche `
+
+Une tâche planifiée dans un fichier de Cron est composée de 3 données différentes :
+- Sa période de répétition définie par 5 données différentes :
+    Les minutes ;
+    Les heures ;
+    Les jours dans le mois ;
+    Les mois ;
+    Les jours de la semaine ;
+- La commande à réaliser ;
+
+Dans un fichier de Cron pour un utilisateur en particulier (en utilisant crontab), le nom d’utilisateur ne doit pas figurer puisque les actions seront réalisées sous l’utilisateur auquel appartient ce fichier.
+
+
+***
+
+##### La commande suivante affichera la liste des tâches Cron de l’utilisateur en cours :
+```
+crontab -l
+```
 ***
 
 
