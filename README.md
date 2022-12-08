@@ -582,14 +582,23 @@ $'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
 Check the following commands to figure out how to write the script:
 
 `uname` : architecture information
+
 `/proc/cpuinfo` : CPU information
+
 `free` : RAM information
+
 `df` : disk information
+
 `top -bn1` : process information
+
 `who` : boot and connected user information
+
 `lsblk` : partition and LVM information
+
 `/proc/net/sockstat` : TCP information
+
 `hostname` : hostname and IP information
+
 `ip link show / ip address` : IP and MAC information
 ***
 
@@ -602,7 +611,7 @@ ls -l
 ##### S'il n'y a pas des droits d'exécution, érire la commande suivante:
 
 ```
-chmod 755 monitoring.sh
+sudo chmod 755 monitoring.sh
 ```
 
 ##### Vérifier si les droits d'exécution ont bien été activés:
