@@ -680,8 +680,40 @@ Dans un fichier de Cron pour un utilisateur en particulier (en utilisant cronta
 crontab -l
 ```
 ***
+##### Sortir du mode `user`
+```
+exit
+```
 
-### 8. Faire un snapshot de la machine
+### 8. Ajouter votre user au groupe `user42`
+
+##### Créer un nouveau groupe `user42`
+
+```
+sudo groupadd [group-name]
+```
+---
+Crée un nouveau groupe avec le nom de votre choix et lui attribue automatique un numéro id. 
+***
+
+##### Vérifier que le groupe a bien été créé:
+```
+getent group [group-name]
+```
+---
+Normalement vous devez voir qu'un numéro ID a bien été attribué au groupe, et qu'aucun user n'a été attribué à ce groupe.
+***
+
+##### Ajouter votre user dans le group `user42`
+```
+sudo usermod -aG [group-name] [user-name]
+```
+##### Vérifier que votre user a bien été ajouté au groupe `user42`
+```
+getent group [group-name]
+```
+
+### 9. Faire un snapshot de la machine
 
 ##### Virtualbox -> appuyer sur le carré à coté du nom de votre machine -> séléctionner snapshots
 
@@ -691,14 +723,7 @@ crontab -l
 
 <img width="1221" alt="Screen Shot 2022-12-08 at 4 06 36 PM" src="https://user-images.githubusercontent.com/109855801/206481435-4e18a320-08a1-4576-83b1-a50250f24071.png">
 
----
-Si maintenant vous procédez à des changements de votre machine (p.ex. ajouts de nouveaux users, changements de server etc) vous pouvez toujours revenir à l'état sauvegardé.
-
-Pour ce faire appuyer le terminal de VirtualBox et appuyer sur le "x" rouge en haut à gauche et séléctionné comme suit: 
-
-<img width="1112" alt="Screen Shot 2022-12-08 at 4 09 18 PM" src="https://user-images.githubusercontent.com/109855801/206482001-1d3cce96-0a9b-4a83-8d97-c4d3a3aa67b6.png">
-
-***
+### 10. Faire le fichier texte `signature.txt`
 
 
 
