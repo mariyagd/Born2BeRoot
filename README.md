@@ -580,8 +580,9 @@ $'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
 ```
 ---
 Check the following commands to figure out how to write the script:
+`wall`: commande qui affiche un message sur le terminal de tous les utilisateurs connectés.
 
-`uname` : architecture information
+`uname` : affiche le nom du système d'exploitation
 
 `/proc/cpuinfo` : CPU information
 
