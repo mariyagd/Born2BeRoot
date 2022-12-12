@@ -715,5 +715,19 @@ getent group [group-name]
 
 ### 10. Faire le fichier texte `signature.txt`
 
+##### Depuis le terminal, aller dans le dossier contenant votre machine au format .vdi et exécuter la commande suivante:
+```
+shasum [nom-machine].vdi > signature.txt
+```
 
+***
+La commande `shasum`calcule une somme de contrôle (appelé checksum) servant de référence pour la vérification de l’intégrité d’un fichier.
 
+L’empreinte générée est constituée de 160 bits convertis en base hexadécimale, soit 40 chiffres en base 16.
+
+Le checksum est calculé à partir du contenu du fichier, et non de son nom : deux fichiers de noms différents mais de même contenu auront la même empreinte, il en va de même pour deux fichiers vides.
+
+Le chevorn `>` permet de écrire le résultat de la commande `shasum` dans le fichier qu'on a nommé `signature.txt`. C'est ce fichier qui doit être déposer dans le dossier git. 
+
+NOTE IMPORTANTE: Il faut envoyer le fichier `signature.txt` contenant uniquement le code!!! 
+---
