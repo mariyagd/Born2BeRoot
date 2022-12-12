@@ -113,10 +113,7 @@ Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le m
 ### 2. Configuration SSH
 
 ---
-![Clipboard_2022-11-30-17-12-28](https://user-images.githubusercontent.com/109855801/206394226-18db12fc-d8f4-41b3-9509-be27c0d3e614.png)
-
 ### SSH - serveur shell sécurisé (SSH),  qui permet de se connecter à une machine distante et d'y exécuter des commandes sur shell. 
-
 
 ###### Les ordinateurs communiquent entre eux via des réseaux. Par conséquent, les chercheurs en réseau ont défini un ensemble de règles pour communiquer avec d'autres machines et ont commencé à développer des protocoles qui permettent qu'un utilisateur puisse prendre le contrôle d'un autre ordinateur.
 
@@ -130,9 +127,6 @@ Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le m
 
 ###### Il utilise une technique de **cryptographie à clé publique** pour **s'authentifier** entre le client et le serveur. De plus, le protocole utilise algorithmes de cryptage et de hashing pour l'échange de messages entre le client et le serveur afin d'assurer la confidentialité et l'intégrité des données.
 
-![Clipboard_2022-11-30-17-05-21](https://user-images.githubusercontent.com/109855801/206394279-03e7f799-66b7-4004-9a48-86f998fa4c15.png)
-
-
 ###### La plupart des **sessions SSH** (période pendant laquelle nous accédons au serveur distant) n'auront que les deux opérations suivantes :
 
 ###### - Authentification
@@ -142,12 +136,7 @@ Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le m
 
 ###### Une fois que le serveur a authentifié le client avec succès, une connexion sécurisée est établie entre eux.
 
-![Clipboard_2022-11-30-18-28-56](https://user-images.githubusercontent.com/109855801/206394627-3762b0f1-1a82-4de9-a3fc-09e717201c38.png)
-
 ###### SSH crypte la session de connexion et empêche ainsi tout agresseur de recueillir des mots de passe non-cryptés.
-
-![Clipboard_2022-11-30-17-09-17](https://user-images.githubusercontent.com/109855801/206394318-03de75e4-0984-459e-97c1-cc644c3b2a58.png)
-
 
 ###### Pour vous connecter à un serveur distant à l'aide de SSH, vous devez savoir au moins deux choses.
 
