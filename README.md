@@ -5,6 +5,15 @@
 ___
 ###### BUT: Installer le paquet `sudo`, se connecter en tant que `root`, attribuer votre user au groupe `sudoers` et lui attribuer les privilèges `sudo`. 
 --- 
+##### Vérifier si le paquet `sudo`a été installé
+```
+apt-cache policy [nom-paque]
+```
+***
+Comme on cherche à savoir si le paquet `sudo`est installé, on écririra §apt-cache policy sudo`. Vous devez voir `(aucun)`ce qui veut dire que le paquet sudo n'est pas installé sur votre machine virtuelle.
+
+En effet lors de l'installation, nous avons choisi de ne pas installer aucun logiciel. Votre machine virtuelle à ce stade contient uniquement le noyau du système.
+---
 ##### Se connecter en tant que `root` et insérer le mot de passe de `root`:
 ```
 su -
