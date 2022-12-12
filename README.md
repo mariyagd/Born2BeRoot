@@ -46,8 +46,12 @@ Il est recommandé de mettre à jour les dépôts APT avant l'installation d'un 
 
 ##### Installer le paquet `sudo`
 ```
-apt-get install sudo
+apt-get install [nom-paquet]
 ```
+***
+Ici on veut installer le paquet `sudo`-> donc `apt-get install sudo`
+
+---
 
 ##### Attribuer votre user au groupe `sudoers`:
 
@@ -111,10 +115,12 @@ exit
 ##### Vérifier que votre user appartient bien au groupe `sudoers`:
 
 ```
-getent group sudo
+getent group [group-name]
 ```
 
 ---
+Le groupe sudoers s'appelle `sudo`. Donc la commande sera: `getent group sudo`.
+
 Cette commande est une manière parmi plein d'autres qui vous permet de vérifier si votre user appartient bien au groupe `sudoers`. Vous devez obtenir une résultat similaire:
 ```
 sudo:x:27:[user-name]
@@ -132,7 +138,7 @@ Cette commande vous renvoie en mode `root` parce que votre user a des privilège
 ```
 exit
 ```
-Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le mot-clé `sudo`. Si la commande s'effectue sans message d'avertissement, vous avez bien les privilèges `sudo`.
+Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le mot-clé `sudo`. Si la commande s'effectue sans message d'avertissement, vous avez bien les privilèges `sudo`. P.ex. la commande `sudo visudo` devrait ouvrir le fichier `/etc/sudoers` comme lorsqu'on l'a ouvert depuis le compte `root`.
 ***
 
 ### 2. Configuration SSH
@@ -221,13 +227,17 @@ Comme mentionné au point 1. il faut mettre à jour le **dépôt** APT **avant**
 
 La commande `upgrade` permet d'actualiser **tous** les **paquets** installés avant cette nouvelle actualisation du dépôt APT. 
 ***
+##### Vérifier que le paquet a été bien installé
+```
+apt-cache policy openssh-server
+```
 
 ##### Vérifier le status du server SSH
 ```
 sudo systemctl status ssh
 ```
 ---
-Vous devez voir en vert `Active (running)` et `Server listening on 0.0.0.0 port 22.`. Si c'est pas le cas, activez le server SSH avec la commande:
+Vous devez voir en vert `Active (running)` et `Server listening on 0.0.0.0 port 22.`. Si ce n'est pas le cas, activez le server SSH avec la commande:
 ```
 sudo systemctl start ssh
 ```
@@ -252,7 +262,7 @@ Pour information le "d" de `sshd` est une marque courante des configurations ser
 ##### Trouver la ligne `#Port 22` et la faire remplacer par `Port 4242` (sans `#`)
 
 ---
-Les configuration par défaut sont mises en commentaires.
+Les configuration par défaut sont mises en commentaires pour l'information du lecteur.
 
 Par défaut, toutes les connexions SSH fonctionnent sur le port 22. Le port 22 fait maintenant partie des *"well known port"*, ces ports qui sont "réservés" par des applications connues. Cependant, une bonne pratique de sécurité consiste à changer le port d'écoute du serveur SSH.
 
@@ -295,7 +305,7 @@ Vous devez voir en vert `Active (running)` et `Server listening on 0.0.0.0 port 
 ```
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt install uff
+sudo apt install ufw
 ```
 
 ##### Autoriser les connexions SSH entrantes
@@ -315,7 +325,7 @@ sudo ufw enable
 ---
 Maintenant que votre pare-feu est configuré pour autoriser les connexions SSH entrantes, nous pouvons l’activer.
 
-Vous recevrez un avertissement qui indique que la commande peut perturber les connexions SSH existantes. Nous avons déjà mis en place une règle de pare-feu qui autorise les connexions SSH, donc nous pouvons continuer. Répondez à l’invite avec y et appuyez sur ENTER.
+Vous pouvez recevoir un avertissement qui indique que la commande peut perturber les connexions SSH existantes. Nous avons déjà mis en place une règle de pare-feu qui autorise les connexions SSH, donc nous pouvons continuer. Répondez à l’invite avec y et appuyez sur ENTER.
 ***
 
 ##### Afficher les règles UFW numérotées
