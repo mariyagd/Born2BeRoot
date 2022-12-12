@@ -18,6 +18,19 @@ En effet lors de l'installation, nous avons choisi de ne pas installer aucun log
 ```
 su -
 ```
+***
+Remarquez que lorsque vous avez saisi la commande, le prompt a été modifié. L'utilisateur root est suivi du signe `#`alors qu'un utilisateur normal est suivi du signe `$`. 
+
+Exemple pour root:
+```
+root@yourlogin42:~# 
+```
+
+Exemple pour un utilisateur normal:
+```
+yourlogin@yourlogin42:~$
+```
+---
 
 ##### Mettre à jour la liste des fichiers disponibles dans les dépôts APT:
 
@@ -25,7 +38,10 @@ su -
 apt-get update
 ```
 ---
-Il est recommandé de mettre à jour les dépôts APT avant l'installation d'un nouveau paquet.
+Les dépôts APT (*Advanced Packaging Tool*) sont des "sources de logiciels", concrètement des serveurs qui contiennent un ensemble de paquets. À l'aide d'un outil appelé gestionnaire de paquets, vous pouvez accéder à ces dépôts et, en quelques clics, vous trouvez, téléchargez et installez les logiciels de votre choix.
+
+
+Il est recommandé de mettre à jour les dépôts APT avant l'installation d'un nouveau paquet (commande `update`).
 ***
 
 ##### Installer le paquet `sudo`
@@ -36,7 +52,7 @@ apt-get install sudo
 ##### Attribuer votre user au groupe `sudoers`:
 
 ```
-[user-name] usermod -aG sudo [user-name]
+usermod -aG sudo [user-name]
 ```
 
 ##### Vérifier si les membres du groupe `sudo` ont les privilèges sudo:
@@ -58,15 +74,15 @@ root            ALL=(ALL:ALL) ALL
 ###### Cette règle veut dire que l'utilisateur `root` a des privilèges illimités et peut exécuter n'importe quelle commande sur n'importe quel system.
 ###### Vous n'avez rien à modifier ici. Le `#` sert à insérer des commentaires.
 
-**`root`**  -> indique le nom d'utilisateur auquel la règle sera appliquée 
+**`root`**  -> indique le nom d'utilisateur auquel la règle sera appliquée.
 
-**`ALL`**`=(ALL:ALL) ALL`   -> indique que la règle est appliquée à tous les hosts
+**`ALL`**`=(ALL:ALL) ALL`   -> le 1<sup>er</sup> `ALL` indique que la règle est appliquée à tous les **hosts**.
 
-`ALL=(`**`ALL`**`:ALL) ALL`  -> indique que les membres du groupe sudo peuvent exécuter des commandes en tant que tous les users
+`ALL=(`**`ALL`**`:ALL) ALL`  -> le 2<sup>ème</sup> `ALL` indique que les membres du groupe sudo peuvent exécuter des commandes en tant que tous les **users**.
 
-`ALL=(ALL:`**`ALL`**`) ALL`   -> indique que les membres du groupe sudo peuvent exécuter des commandes en tant que tous les groupes
+`ALL=(ALL:`**`ALL`**`) ALL`   -> le 3<sup>ème</sup> `ALL` indique que les membres du groupe sudo peuvent exécuter des commandes en tant que tous les **groupes**.
 
-`ALL=(ALL:ALL)`**` ALL`**     -> la règle s'applique pour toutes les commandes
+`ALL=(ALL:ALL)`**` ALL`**     -> le 4<sup>ème</sup> `ALL` indique que la règle s'applique pour toutes les **commandes**.
 ***
 
 ##### Avez-vous la ligne suivante?
