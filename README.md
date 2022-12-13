@@ -458,11 +458,15 @@ Les paramètres `PASS_MAX_DAYS`, `PASS_MIN_DAYS` et `PASS_WARN_AGE` ne sont util
 
 Si vous créez un nouveau utilisateur, vous pouvez vérifier si cette configuration d'expiration du mot de passe est valable pour lui avec la commande:
 ```
+sudo chage -l [user-name]
+```
+Si vous voulez vérifier la configuration de l'utilisateur avec lequel vous êtes actuellement connecté:
+```
 chage -l [user-name]
 ```
 ***
 
-##### Changer le mot de passe de votre utilisateur selon la nouvelle politique:
+##### Changer le mot de passe selon la nouvelle politique de l'utilisateur avec lequel vous êtes actuellement connecté:
 ```
 passwd [user-name]
 ```
@@ -543,9 +547,10 @@ Defaults        log_input, log_output
 ```
 sudo nano /etc/rsyslog.conf
 ```
-##### Ajouter cette ligne `local1.* /var/log/sudo.log` avant `auth,authpriv.*;local1.none`, comme montré sur la photo:
+##### Ajouter cette ligne `local1.*                        /var/log/sudo/sudo.log` avant `auth,authpriv.*                 /var/log/auth.log`, comme montré sur la photo:
 
-![image](https://user-images.githubusercontent.com/109855801/206443861-9863d7de-119b-4c1f-858d-5c1afbf2d938.png)
+<img width="407" alt="Capture d’écran 2022-12-13 à 21 08 23" src="https://user-images.githubusercontent.com/109855801/207433716-994bbc9f-0565-426b-b5a5-92256af6f711.png">
+
 
 ---
 La règle suivante comprend un sélecteur, qui sélectionne tous les messages syslog `local1` et une action qui les enregistre sans le fichier journal `/var/log/sudo/sudo.log`.
@@ -626,6 +631,18 @@ Check the following commands to figure out how to write the script:
 
 `ip link show / ip address` : IP and MAC information
 ***
+##### Exécuter le script avec la commande `bash`afin de détecter des evéntuelles erreurs dans votre script:
+
+Si vous êtes dans le dossier où se trouve le fichier .sh:
+```
+bash monitoring.sh
+```
+
+ou depuis n'importe quel dossier:
+
+```
+bash /usr/local/bin/monitoring.sh
+```
 
 #####  Vérifier si le fichier a des droit d'exécution `x`
 
@@ -636,7 +653,7 @@ ls -l
 ##### S'il n'y a pas des droits d'exécution, érire la commande suivante:
 
 ```
-sudo chmod 755 monitoring.sh
+sudo chmod +x monitoring.sh
 ```
 
 ##### Vérifier si les droits d'exécution ont bien été activés:
@@ -644,6 +661,16 @@ sudo chmod 755 monitoring.sh
 ```
 ls -l
 ```
+##### Comamndes pour vérifier que le fichier .sh est maintenant exécutable et que votre script ne contient pas des erreurs: (commande à utiliser uniquement lorsque vous êtes dans le dossier de l'exécutable, dans ce cas dans /usr/local/bin/`:
+
+Depuis le dossier qui contient le fichier .sh (dans ce cas `/usr/local/bin/`:
+```
+./monitoring.sh 
+```
+***
+Si le script s'exécute, votre fichier est exécutable. Notez qu'on n'a plus besoin d'utiliser `bash`.
+---
+
 
 ##### Vérifier si le paquet cron est déjà installé:
 
@@ -681,6 +708,8 @@ Pour être autorisé à utiliser la commande crontab, il faut que l'utilisateur 
 */10 * * * * /usr/local/bin/monitoring.sh
 #
 ```
+<img width="507" alt="Capture d’écran 2022-12-13 à 21 32 56" src="https://user-images.githubusercontent.com/109855801/207437726-89877011-50a3-4159-b79b-59bf07a40e99.png">
+
 ---
 La commande `crontab` permet de définir la fréquence.
  
