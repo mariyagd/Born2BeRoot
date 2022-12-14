@@ -695,12 +695,16 @@ ls -l
 ```
 ##### Comamndes pour vérifier que le fichier .sh est maintenant exécutable et que votre script ne contient pas des erreurs: (commande à utiliser uniquement lorsque vous êtes dans le dossier de l'exécutable, dans ce cas dans /usr/local/bin/`:
 
-Depuis le dossier qui contient le fichier .sh (dans ce cas `/usr/local/bin/`:
+Depuis le dossier qui contient le fichier .sh (dans ce cas `/usr/local/bin/`):
 ```
 ./monitoring.sh 
 ```
 ***
 Si le script s'exécute, votre fichier est exécutable. Notez qu'on n'a plus besoin d'utiliser `bash`.
+
+Un fichier exécutable appelé encore programme ou exécutable tout court, peut prendre deux formes:
+- fichier binaire (programmes en languages machine, compilé et interpretés par le processeur)
+- fichier texte (c'est le cas des scripts)
 ---
 
 
