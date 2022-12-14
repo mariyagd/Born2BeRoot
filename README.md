@@ -611,6 +611,14 @@ EXPLICATION:
 ###### Le démon rsyslogd a pour charge de collecter les messages de service provenant des applications et du noyau puis de les répartir dans des fichiers de logs (habituellement stockés dans le répertoire /var/log/). Il obéit au fichier de configuration /etc/rsyslog.conf.
 
 ### 7. Monitoring.sh
+##### Installer les outils netstat
+```
+sudo apt-get update -y
+sudo apt-get install -y net-tools
+```
+***
+La commande `netstat` va être utilisée dans le script ci-dessous, et donc doit être préalablement installé. Netstat est un programme piloté via une ligne de commandes. Il livre des statistiques de base sur toutes les activités de réseau et donne par exemple des indications sur le port et l’adresse sur lesquels une connexion (TCP, UDP) est établie, mais également des indications sur quels ports sont ouverts pour des demandes.
+---
 
 ##### Créer le fichier `monitoring.sh` dans le dossier `/usr/local/bin/`:
 ```
