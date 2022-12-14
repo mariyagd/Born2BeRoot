@@ -812,7 +812,55 @@ sudo usermod -aG [group-name] [user-name]
 getent group [group-name]
 ```
 
-### 9. Faire un snapshot de la machine
+### 9. Configurer une authentification avec clé publique au lieu de mot de passe:
+
+##### Ouvrir le terminal de votre machine HÔTE et copier la clé publique qui s'affiche grâce à la commande suivante:
+```
+cat ~/.ssh/id_rsa.pub
+```
+
+##### Ouvrir le terminal de votre machine VIRTUELLE
+
+##### Vous devez vous assurer que le répertoire `~/.ssh` existe. Cette commande créera le répertoire si nécessaire, ou ne fera rien s'il existe déjà :
+```
+mkdir -p ~/.ssh
+```
+##### Maintenant, vous pouvez créer ou modifier le fichier authorized_keys dans ce répertoire. Vous pouvez ajouter le contenu de votre fichier id_rsa.pub à la fin du fichier authorized_keys, en le créant si nécessaire, en utilisant cette commande :
+```
+echo [votre clé publique] >> ~/.ssh/authorized_keys
+```
+
+EXEMPLE:
+```
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBKRb9lL7WbKcpVSmI2Lbor6I25Y4T4csJFm67zJG27xwFEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pB= mdanchev@c1r15s7.42lausanne.ch >> ~/.ssh/authorized_keys
+```
+##### Pour finir nous donnerons les autorisations nécessaires aux dossiers et fichiers:
+```
+chmod -R go= ~/.ssh
+```
+
+##### Reboot
+```
+sudo reboot
+```
+
+##### Lorsque vous vous connecter maintenant sur le terminal de votre machine hôte avec la commande `ssh yourlogin@127.0.0.1 - p 4242`, la connexion est effectuée sans demander le mot de passe
+
+### 10. Interdire la connexion SSH avec `root`
+
+Ouvrir le fichier de configuration:
+```
+sudo nano /etc/ssh/sshd_config
+```
+Et chercher le paragraphe:
+
+<img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207665145-1ca6e9eb-ac32-477b-926c-4639f334b3fb.png">
+
+Changer à `PermitRootLogin no` comme montré sur la montré:
+
+<img width="180" alt="Screen Shot 2022-12-14 at 5 17 29 PM" src="https://user-images.githubusercontent.com/109855801/207665294-b762ff12-ed6d-45aa-99e9-80de554c654a.png">
+
+### 11. Faire un snapshot de la machine
 
 ##### Virtualbox -> appuyer sur le carré à coté du nom de votre machine -> séléctionner snapshots
 
@@ -822,7 +870,7 @@ getent group [group-name]
 
 <img width="1221" alt="Screen Shot 2022-12-08 at 4 06 36 PM" src="https://user-images.githubusercontent.com/109855801/206481435-4e18a320-08a1-4576-83b1-a50250f24071.png">
 
-### 10. Faire le fichier texte `signature.txt`
+### 12. Faire le fichier texte `signature.txt`
 
 ##### Depuis le terminal, aller dans le dossier contenant votre machine au format .vdi et exécuter la commande suivante:
 ```
