@@ -336,6 +336,33 @@ Vous pouvez recevoir un avertissement qui indique que la commande peut perturber
 sudo ufw status numbered
 ```
 
+---
+Le résultat peut être lu ainsi: Toutes les connexions entrantes dans le port 4242 vont être contrôlées. Les connexions peuvent avoir un adresse IPv4 ou IPv6.
+
+Le protocole IPv4 (Internet Protocol version 4) est la forme d'adressage IP couramment utilisée pour identifier les hôtes sur un réseau et utilise un format 32 bits. Le protocole IP version 6 (IPv6) est la norme d'adresse IP de nouvelle génération destinée à remplacer le format IPv4. IPv6 résout le problème de pénurie d'adresses en utilisant l'adressage 128 bits au lieu de l'adressage 32 bits utilisé dans IPv4.
+
+
+Lors de l'évaluation vous devrez autoriser les connexions depuis le port 8080.
+
+Pour cela:
+
+```
+sudo ufw allow 8080
+```
+Les règles apparaissent d'une manière numérotée. On peut supprimer une règle en fonction de son numéro avec la commande:
+```
+sudo ufw delete [numéro-règle]
+```
+Dans ce cas vous devez supprimer 2 règles - pour les IPv4 et pour les IPv6.
+
+On peut aussi supprimer les deux règles en même temps en utilisant le nom de la règle:
+```
+sudo ufw delete allow 8080
+```
+
+Lorsque vous rendez le projet, assurez-vous d'avoir uniquement la règle pour le port 4242.
+***
+
 ### 4. Redirection de port (Port Forwarding)
 ---
 ###### VirtualBox est un programme utilisé pour exécuter et passer facilement entre plusieurs systèmes d'exploitation sur votre système d'exploitation. Il est particulièrement utile pour établir des connexions sur des réseaux. Secure Shell est un protocole réseau cryptographique qui fonctionne en toute sécurité et connecte un client à un serveur sur un réseau non sécurisé. Les données doivent être sécurisées cryptographiquement avant de les envoyer sur le réseau pour éviter les attaques de l'homme du milieu. En outre, vous devrez activer SSH lors de l'interaction avec les machines virtuelles pour des raisons de sécurité. 
