@@ -359,6 +359,10 @@ On peut aussi supprimer les deux règles en même temps en utilisant le nom de l
 ```
 sudo ufw delete allow 8080
 ```
+Vérifiez la suppression avec:
+```
+sudo ufw status numbered
+```
 
 Lorsque vous rendez le projet, assurez-vous d'avoir uniquement la règle pour le port 4242.
 ***
