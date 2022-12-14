@@ -56,10 +56,15 @@ Ici on veut installer le paquet `sudo`-> donc `apt-get install sudo`
 ---
 
 ##### Attribuer votre user au groupe `sudoers`:
+```
+addgroup [user-name] [group-name]
+```
+ou avec la commande `usermod` 
 
 ```
-usermod -aG sudo [user-name]
+usermod -aG [nom-group] [user-name]
 ```
+La commande `usermode` permet de modifier la configuration d'un utilisateur (changer son nom, l'attribuer à un groupe, changer son UID, désactiver le compte et pleins d'autres configurations):
 
 ##### Vérifier si les membres du groupe `sudo` ont les privilèges sudo:
 ```
