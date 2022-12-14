@@ -7,12 +7,12 @@ ___
 --- 
 ##### Vérifier si le paquet `sudo`a été installé
 ```
-apt-cache policy sudo
+apt-cache policy [nom-paquet]
 ```
 ***
+Pour le paquet sudo: `apt-cache policz sudo`.
 Vous devez voir `(aucun)`ce qui veut dire que le paquet sudo n'est pas installé sur votre machine virtuelle. 
 
-Commande générale `apt-cache policy [nom-paquet]`.
 
 En effet lors de l'installation, nous avons choisi de n'installer aucun logiciel. Votre machine virtuelle à ce stade contient uniquement le noyau du système.
 ---
