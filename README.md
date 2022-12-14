@@ -10,7 +10,7 @@ ___
 apt-cache policy [nom-paquet]
 ```
 ***
-Pour le paquet sudo: `apt-cache policz sudo`.
+Pour le paquet sudo: `apt-cache policy sudo`.
 Vous devez voir `(aucun)`ce qui veut dire que le paquet sudo n'est pas installé sur votre machine virtuelle. 
 
 
