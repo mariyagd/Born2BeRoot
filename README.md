@@ -626,7 +626,7 @@ sudo nano monitoring.sh
 ##### Ecrire dedans le script suivant:
 ```
 #!/bin/bash
-wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `arch` \
+wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `>
 $'\n#CPU physical: '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n#vCPU:  '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n'`free -m | awk 'NR==2{printf "#Memory Usage: %s/%sMB (%.2f%%)", $3,$2,$3*100/$2 }'` \
@@ -638,6 +638,7 @@ $'\n#Connection TCP:' `netstat -an | grep ESTABLISHED |  wc -l` \
 $'\n#User log: ' `who | cut -d " " -f 1 | sort -u | wc -l` \
 $'\nNetwork: IP ' `hostname -I`"("`ip a | grep link/ether | awk '{print $2}'`")" \
 $'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
+
 ```
 ---
 Check the following commands to figure out how to write the script:
