@@ -1,6 +1,5 @@
 # Born2BeRoot
 
-
 ### 1. Attribution des privilèges `sudo` à votre user
 ___
 ###### BUT: Installer le paquet `sudo`, se connecter en tant que `root`, attribuer votre user au groupe `sudoers` et lui attribuer les privilèges `sudo`. 
@@ -141,6 +140,16 @@ exit
 ```
 Pratiquement, vous pouvez écrire n'importe quelle commande commençant par le mot-clé `sudo`. Si la commande s'effectue sans message d'avertissement, vous avez bien les privilèges `sudo`. P.ex. la commande `sudo visudo` devrait ouvrir le fichier `/etc/sudoers` comme lorsqu'on l'a ouvert depuis le compte `root`.
 ***
+
+### Installation de paquets de man utiles:
+
+```
+sudo apt-get install man-db manpages manpages-dev manpages-fr
+```
+---
+Avec cette commande on installe 4 paquets. Le nom de chaque paquet est séparé avec espace. `manpages-fr` pour avoir en français.
+***
+
 
 ### 2. Configuration SSH
 
@@ -611,6 +620,14 @@ EXPLICATION:
 ###### Le démon rsyslogd a pour charge de collecter les messages de service provenant des applications et du noyau puis de les répartir dans des fichiers de logs (habituellement stockés dans le répertoire /var/log/). Il obéit au fichier de configuration /etc/rsyslog.conf.
 
 ### 7. Monitoring.sh
+##### Installer les outils netstat
+```
+sudo apt-get update -y
+sudo apt-get install -y net-tools
+```
+***
+La commande `netstat` va être utilisée dans le script ci-dessous, et donc doit être préalablement installé. Netstat est un programme piloté via une ligne de commandes. Il livre des statistiques de base sur toutes les activités de réseau et donne par exemple des indications sur le port et l’adresse sur lesquels une connexion (TCP, UDP) est établie, mais également des indications sur quels ports sont ouverts pour des demandes.
+---
 
 ##### Créer le fichier `monitoring.sh` dans le dossier `/usr/local/bin/`:
 ```
@@ -626,7 +643,7 @@ sudo nano monitoring.sh
 ##### Ecrire dedans le script suivant:
 ```
 #!/bin/bash
-wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `arch` \
+wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `>
 $'\n#CPU physical: '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n#vCPU:  '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n'`free -m | awk 'NR==2{printf "#Memory Usage: %s/%sMB (%.2f%%)", $3,$2,$3*100/$2 }'` \
@@ -638,6 +655,7 @@ $'\n#Connection TCP:' `netstat -an | grep ESTABLISHED |  wc -l` \
 $'\n#User log: ' `who | cut -d " " -f 1 | sort -u | wc -l` \
 $'\nNetwork: IP ' `hostname -I`"("`ip a | grep link/ether | awk '{print $2}'`")" \
 $'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
+
 ```
 ---
 Check the following commands to figure out how to write the script:
@@ -747,6 +765,8 @@ Pour être autorisé à utiliser la commande crontab, il faut que l'utilisateur 
 <img width="507" alt="Capture d’écran 2022-12-13 à 21 32 56" src="https://user-images.githubusercontent.com/109855801/207437726-89877011-50a3-4159-b79b-59bf07a40e99.png">
 
 ---
+La règle exécutera le script monitoring.sh toutes les dix minutes **par rapport à l'heure**. Donc de 00h00 à 24h00, toutes les 10 minutes.
+
 La commande `crontab` permet de définir la fréquence.
  
 La syntaxe des fichiers de Cron : `mm hh jj MMM JJJ tâche `
@@ -803,7 +823,73 @@ sudo usermod -aG [group-name] [user-name]
 getent group [group-name]
 ```
 
-### 9. Faire un snapshot de la machine
+
+### 9. Connexion SSH en tant que `root` avec la clé publique
+
+La configuration par defaut pour la connexion SSH avec `root` est `PermitRootLogin prohibit-password` dans le fichier `/etc/ssh/sshd_config`. Ceci veut dire que les authetifications interactivse avec un clavier et donc avec un mot de passe sont interdites.
+
+<img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207844077-88492d72-6a6e-4012-8b5d-cea195683b89.png">
+
+Mais il est toujours possible de se connecter en tant que `root` à l'aide de la clé publique de votre machine hôte. Pour tester il faut se connecter en tant que `root` et copier la clé publique de votre machine hôte dans le fichier `~/.ssh/authorized_keys` de l'environnement `root` de votre machine virtuelle . Si le fichier `authorized_keys` et/ou le dossier `~/.ssh` ne sont pas créer il va falloir les créer. On procède donc aux mêmes étapes qu'avant, mais cette fois-ci, depuis l'environnement de `root`.
+
+##### Ouvrir le terminal de votre machine HÔTE et copier la clé publique qui s'affiche grâce à la commande suivante:
+```
+cat ~/.ssh/id_rsa.pub
+```
+
+##### Ouvrir le terminal de votre machine VIRTUELLE
+
+##### Vous devez vous assurer que le répertoire `~/.ssh` existe. Cette commande créera le répertoire si nécessaire, ou ne fera rien s'il existe déjà :
+```
+mkdir -p ~/.ssh
+```
+##### Maintenant, vous pouvez créer ou modifier le fichier authorized_keys dans ce répertoire. Vous pouvez ajouter le contenu de votre fichier id_rsa.pub à la fin du fichier authorized_keys, en le créant si nécessaire, en utilisant cette commande :
+```
+echo [clé publique machine hôte] >> ~/.ssh/authorized_keys
+```
+
+EXEMPLE:
+```
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBKRb9lL7WbKcpVSmI2Lbor6I25Y4T4csJFm67zJG27xwFEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pB= mdanchev@c1r15s7.42lausanne.ch >> ~/.ssh/authorized_keys
+```
+##### Pour finir nous donnerons les autorisations nécessaires aux dossiers et fichiers:
+
+```
+chmod -R go= ~/.ssh
+```
+
+```
+On relance le service SSH:
+```
+```
+systemctl restart ssh
+```
+
+Et depuis un nouveau terminal de la machine hôte on essaie de se connecter avec `root`:
+```
+ssh root@127.0.0.1 -p 4242
+```
+
+Vous avez réussi la connexion sans mot de passe saisie au clavier, mais à l'aide de la clé publique. Le projet demande aucune authetification possible. Donc il faut modifier le fichier de configuration de ssh.
+
+PS: La même procédure est à suivre si vous voulez autoriser un user à se connceter avec la clé publique. Il faut travailler depuis l'environnement de cet user. 
+
+### 10. Interdire la connexion SSH avec `root`
+
+Ouvrir le fichier de configuration:
+```
+sudo nano /etc/ssh/sshd_config
+```
+
+Et chercher le paragraphe:
+
+<img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207665145-1ca6e9eb-ac32-477b-926c-4639f334b3fb.png">
+
+Changer à `PermitRootLogin no` comme montré sur la montré:
+
+<img width="180" alt="Screen Shot 2022-12-14 at 5 17 29 PM" src="https://user-images.githubusercontent.com/109855801/207665294-b762ff12-ed6d-45aa-99e9-80de554c654a.png">
+
+### 11. Faire un snapshot de la machine
 
 ##### Virtualbox -> appuyer sur le carré à coté du nom de votre machine -> séléctionner snapshots
 
@@ -811,9 +897,11 @@ getent group [group-name]
 
 ##### Appuyer sur Take et attribuer un nom
 
-<img width="1221" alt="Screen Shot 2022-12-08 at 4 06 36 PM" src="https://user-images.githubusercontent.com/109855801/206481435-4e18a320-08a1-4576-83b1-a50250f24071.png">
+<img width="1286" alt="Screen Shot 2022-12-15 at 12 39 51 PM" src="https://user-images.githubusercontent.com/109855801/207850207-267781ff-7195-4c19-97ae-2b6f8cd3a351.png">
 
-### 10. Faire le fichier texte `signature.txt`
+Si vous faites des changements dans votre machine et vous voulez revenir à l'état initial, il suffit d'appuyer sur Restore. A l'ouverture de la sauvegarde sélectionné, la machine doit commencer avec le logo Debian. Si c'est pas le cas, il faut faire des sauvegardes supplémentaires.
+
+### 12. Faire le fichier texte `signature.txt`
 
 ##### Depuis le terminal, aller dans le dossier contenant votre machine au format .vdi et exécuter la commande suivante:
 ```
