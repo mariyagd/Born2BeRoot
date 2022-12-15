@@ -765,6 +765,8 @@ Pour être autorisé à utiliser la commande crontab, il faut que l'utilisateur 
 <img width="507" alt="Capture d’écran 2022-12-13 à 21 32 56" src="https://user-images.githubusercontent.com/109855801/207437726-89877011-50a3-4159-b79b-59bf07a40e99.png">
 
 ---
+La règle exécutera le script monitoring.sh toutes les dix minutes **par rapport à l'heure**. Donc de 00h00 à 24h00, toutes les 10 minutes.
+
 La commande `crontab` permet de définir la fréquence.
  
 La syntaxe des fichiers de Cron : `mm hh jj MMM JJJ tâche `
@@ -821,7 +823,14 @@ sudo usermod -aG [group-name] [user-name]
 getent group [group-name]
 ```
 
-### 9. Configurer une authentification avec clé publique au lieu de mot de passe:
+
+### 9. Connexion SSH en tant que `root` avec la clé publique
+
+La configuration par defaut pour la connexion SSH avec `root` est `PermitRootLogin prohibit-password` dans le fichier `/etc/ssh/sshd_config`. Ceci veut dire que les authetifications interactivse avec un clavier et donc avec un mot de passe sont interdites.
+
+<img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207844077-88492d72-6a6e-4012-8b5d-cea195683b89.png">
+
+Mais il est toujours possible de se connecter en tant que `root` à l'aide de la clé publique de votre machine hôte. Pour tester il faut se connecter en tant que `root` et copier la clé publique de votre machine hôte dans le fichier `~/.ssh/authorized_keys` de l'environnement `root` de votre machine virtuelle . Si le fichier `authorized_keys` et/ou le dossier `~/.ssh` ne sont pas créer il va falloir les créer. On procède donc aux mêmes étapes qu'avant, mais cette fois-ci, depuis l'environnement de `root`.
 
 ##### Ouvrir le terminal de votre machine HÔTE et copier la clé publique qui s'affiche grâce à la commande suivante:
 ```
@@ -848,27 +857,6 @@ echo ssh-rsa AAAAB3NzaC1yc2EAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRy
 chmod -R go= ~/.ssh
 ```
 
-
-##### Reboot afin de tester la connexion à l'aide de clé publique
-```
-sudo reboot
-```
-
-##### Lorsque vous vous connecter maintenant sur le terminal de votre machine hôte avec la commande `ssh yourlogin@127.0.0.1 - p 4242`, la connexion est effectuée sans demander le mot de passe
-
-### 10. Connexion SSH en tant que `root` avec la clé publique
-
-La configuration par defaut pour la connexion SSH avec `root` est `PermitRootLogin prohibit-password` dans le fichier `/etc/ssh/sshd_config`. Ceci veut dire que les authetifications interactivse avec un clavier et donc avec un mot de passe sont interdites.
-
-<img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207844077-88492d72-6a6e-4012-8b5d-cea195683b89.png">
-
-Mais il est toujours possible de se connecter en tant que `root` à l'aide de la clé publique de votre machine hôte. Pour tester il faut se connecter en tant que `root` et copier la clé publique de votre machine hôte dans le fichier `~/.ssh/authorized_keys` de l'environnement `root` de votre machine virtuelle . Si le fichier `authorized_keys` et/ou le dossier `~/.ssh` ne sont pas créer il va falloir les créer. On procède donc aux mêmes étapes qu'avant, mais cette fois-ci, depuis l'environnement de `root`.
-
-```
-su -
-mkdir -p ~/.ssh
-echo [clé publique machine hôte] >> ~/.ssh/authorized_keys
-chmod -R go= ~/.ssh
 ```
 On relance le service SSH:
 ```
@@ -884,7 +872,7 @@ Vous avez réussi la connexion sans mot de passe saisie au clavier, mais à l'ai
 
 PS: La même procédure est à suivre si vous voulez autoriser un user à se connceter avec la clé publique. Il faut travailler depuis l'environnement de cet user. 
 
-### 11. Interdire la connexion SSH avec `root`
+### 10. Interdire la connexion SSH avec `root`
 
 Ouvrir le fichier de configuration:
 ```
@@ -898,7 +886,7 @@ Changer à `PermitRootLogin no` comme montré sur la montré:
 
 <img width="180" alt="Screen Shot 2022-12-14 at 5 17 29 PM" src="https://user-images.githubusercontent.com/109855801/207665294-b762ff12-ed6d-45aa-99e9-80de554c654a.png">
 
-### 12. Faire un snapshot de la machine
+### 11. Faire un snapshot de la machine
 
 ##### Virtualbox -> appuyer sur le carré à coté du nom de votre machine -> séléctionner snapshots
 
@@ -910,7 +898,7 @@ Changer à `PermitRootLogin no` comme montré sur la montré:
 
 Si vous faites des changements dans votre machine et vous voulez revenir à l'état initial, il suffit d'appuyer sur Restore. A l'ouverture de la sauvegarde sélectionné, la machine doit commencer avec le logo Debian. Si c'est pas le cas, il faut faire des sauvegardes supplémentaires.
 
-### 13. Faire le fichier texte `signature.txt`
+### 12. Faire le fichier texte `signature.txt`
 
 ##### Depuis le terminal, aller dans le dossier contenant votre machine au format .vdi et exécuter la commande suivante:
 ```
