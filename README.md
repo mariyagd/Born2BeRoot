@@ -853,12 +853,14 @@ EXEMPLE:
 echo ssh-rsa AAAAB3NzaC1yc2EAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBKRb9lL7WbKcpVSmI2Lbor6I25Y4T4csJFm67zJG27xwFEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pBEAAAADAaR7BoB4p6yV9B5aB76N5S/lo9+K/HjccoSXcCsJl6N/CRyfn44I1Q0vDSR+qSp5pB= mdanchev@c1r15s7.42lausanne.ch >> ~/.ssh/authorized_keys
 ```
 ##### Pour finir nous donnerons les autorisations nécessaires aux dossiers et fichiers:
+
 ```
 chmod -R go= ~/.ssh
 ```
 
 ```
 On relance le service SSH:
+```
 ```
 systemctl restart ssh
 ```
@@ -878,6 +880,7 @@ Ouvrir le fichier de configuration:
 ```
 sudo nano /etc/ssh/sshd_config
 ```
+
 Et chercher le paragraphe:
 
 <img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207665145-1ca6e9eb-ac32-477b-926c-4639f334b3fb.png">
