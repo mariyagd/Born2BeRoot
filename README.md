@@ -445,7 +445,7 @@ sudo nano /etc/pam.d/common-password
 ##### Entrer les configurations suivantes à coté du terme `pam_pwquality.so`:
 
 ```
-password        requisite                       pam_pwquality.so retry=3 dcredit=-1 difok=7 enforce_for_root maxrepeat=3 minclass=3 minlen=10 ucredit=-1 usercheck=1
+password        requisite                       pam_pwquality.so retry=3 dcredit=-1 lcredit=-1 ucredit=-1 difok=7 enforce_for_root maxrepeat=3 minclass=3 minlen=10  usercheck=1
 ```
 ---
 `retry=3` -> Nombre maximum de tentatives ratées de connexion (option présente par défaut par défaut).
@@ -459,6 +459,8 @@ password        requisite                       pam_pwquality.so retry=3 dcredit
 `dcredit=-1` -> Votre mot de passe contient au moins un chiffre.
 
 `ucredit=-1` -> Votre mot de passe contient au moins une majuscule.
+
+`lcredit=-1` -> Votre mot de passe contient au moins une miniscule.
 
 `enforce_for_root` -> Les règles s'appliquent à `root` aussi.
 
@@ -643,7 +645,7 @@ sudo nano monitoring.sh
 ##### Ecrire dedans le script suivant:
 ```
 #!/bin/bash
-wall $'#Architecture: ' `hostnamectl | grep "Operating System" | cut -d ' ' -f5- ` `awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'` `>
+wall $'#Architecture: ' `uname -a' \
 $'\n#CPU physical: '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n#vCPU:  '`cat /proc/cpuinfo | grep processor | wc -l` \
 $'\n'`free -m | awk 'NR==2{printf "#Memory Usage: %s/%sMB (%.2f%%)", $3,$2,$3*100/$2 }'` \
@@ -654,32 +656,18 @@ $'\n#LVM use: ' `lsblk |grep lvm | awk '{if ($1) {print "yes";exit;} else {print
 $'\n#Connection TCP:' `netstat -an | grep ESTABLISHED |  wc -l` \
 $'\n#User log: ' `who | cut -d " " -f 1 | sort -u | wc -l` \
 $'\nNetwork: IP ' `hostname -I`"("`ip a | grep link/ether | awk '{print $2}'`")" \
-$'\n#Sudo:  ' `grep 'sudo ' /var/log/auth.log | wc -l`
+$'\n#Sudo:  ' `grep -a sudo /var/log/auth.log | wc -l`
 
 ```
 ---
-Check the following commands to figure out how to write the script:
-`wall`: commande qui affiche un message sur le terminal de tous les utilisateurs connectés.
+`wall` - commande qui affiche un message sur le terminal de tous les utilisateurs connectés
 
-`uname` : affiche le nom du système d'exploitation
+`free` - commande qui permet de mesurer l'utilisation globale de mémoire vive sur la machine. Ou utilise l'option `-h` pour utiliser un affichage simple à lire pour un humain.
 
-`/proc/cpuinfo` : CPU information
+`df` - affiche des informations sur l'espace total et l'espace disponible sur un système de fichiers
 
-`free` : RAM information
+`top` - La commande TOP est une des premières commandes à connaitre et savoir utiliser lorsqu’on est sur Linux. Elle permet de surveiller son système et d’identifier des dysfonctionnement. Lorsqu’on vient du monde de Windows, on peut la comparer au gestionnaire de tâches.
 
-`df` : disk information
-
-`top -bn1` : process information
-
-`who` : boot and connected user information
-
-`lsblk` : partition and LVM information
-
-`/proc/net/sockstat` : TCP information
-
-`hostname` : hostname and IP information
-
-`ip link show / ip address` : IP and MAC information
 ***
 ##### Exécuter le script avec la commande `bash`afin de détecter des evéntuelles erreurs dans votre script:
 
