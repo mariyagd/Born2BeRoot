@@ -445,7 +445,7 @@ sudo nano /etc/pam.d/common-password
 ##### Entrer les configurations suivantes à coté du terme `pam_pwquality.so`:
 
 ```
-password        requisite                       pam_pwquality.so retry=3 dcredit=-1 difok=7 enforce_for_root maxrepeat=3 minclass=3 minlen=10 ucredit=-1 usercheck=1
+password        requisite                       pam_pwquality.so retry=3 dcredit=-1 lcredit=-1 ucredit=-1 difok=7 enforce_for_root maxrepeat=3 minclass=3 minlen=10  usercheck=1
 ```
 ---
 `retry=3` -> Nombre maximum de tentatives ratées de connexion (option présente par défaut par défaut).
@@ -459,6 +459,8 @@ password        requisite                       pam_pwquality.so retry=3 dcredit
 `dcredit=-1` -> Votre mot de passe contient au moins un chiffre.
 
 `ucredit=-1` -> Votre mot de passe contient au moins une majuscule.
+
+`lcredit=-1` -> Votre mot de passe contient au moins une miniscule.
 
 `enforce_for_root` -> Les règles s'appliquent à `root` aussi.
 
