@@ -826,11 +826,11 @@ getent group [group-name]
 
 ### 9. Connexion SSH en tant que `root` avec la clé publique
 
-La configuration par defaut pour la connexion SSH avec `root` est `PermitRootLogin prohibit-password` dans le fichier `/etc/ssh/sshd_config`. Ceci veut dire que les authetifications interactivse avec un clavier et donc avec un mot de passe sont interdites.
+La configuration par defaut pour la connexion SSH avec `root` est `PermitRootLogin prohibit-password` dans le fichier `/etc/ssh/sshd_config`. Ceci veut dire que les authetifications interactive avec un clavier et donc avec un mot de passe sont interdites.
 
 <img width="273" alt="Screen Shot 2022-12-14 at 5 17 08 PM" src="https://user-images.githubusercontent.com/109855801/207844077-88492d72-6a6e-4012-8b5d-cea195683b89.png">
 
-Mais il est toujours possible de se connecter en tant que `root` à l'aide de la clé publique de votre machine hôte. Pour tester il faut se connecter en tant que `root` et copier la clé publique de votre machine hôte dans le fichier `~/.ssh/authorized_keys` de l'environnement `root` de votre machine virtuelle . Si le fichier `authorized_keys` et/ou le dossier `~/.ssh` ne sont pas créer il va falloir les créer. On procède donc aux mêmes étapes qu'avant, mais cette fois-ci, depuis l'environnement de `root`.
+Mais il est toujours possible de se connecter en tant que `root` à l'aide de la clé publique de votre machine hôte. Pour tester il faut se connecter en tant que `root` et copier la clé publique de votre machine hôte dans le fichier `~/.ssh/authorized_keys` de l'environnement `root` de votre machine virtuelle . Si le fichier `authorized_keys` et/ou le dossier `~/.ssh` ne sont pas créer il va falloir les créer. 
 
 ##### Ouvrir le terminal de votre machine HÔTE et copier la clé publique qui s'affiche grâce à la commande suivante:
 ```
